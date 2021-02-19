@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<select name="" id="city">fdf
+    <option value="Sydney">Sydney</option>
+    <option value="Melbourne">Melbourne</option>
+    <option value="Wollongong">Wollongong</option>
+</select>
+<div id="container">
+
+
+</div>
+<script src="jquery-2.0.0.js"></script>
+<script>
+    $(function () {
+        $("#city").change(function () {
+            var html = "";
+            $("#city option").each(function () {
+                if ($(this).prop("selected")) {
+                    $.ajax({
+                        url: 'weather',
+                        dataType: "json",
+                        data: {'city': $(this).val()},
+                        success: function (data) {
+                            var datas = data;
+                            html = `<h3>City:${datas.city}</h3>
+							  <h3>LastDate:${datas.date}</h3>
+							  <h3>temperature:${datas.temperature}</h3>
+							  <h3>Weather:${datas.weather}</h3>
+							  <h3>Wind:${datas.wind}</h3>
+						`
+                            $("#container").html(html);
+
+
+                        }
+                    })
+
+                }
+
+            })
+
+        })
+
+
+    })
+</script>
+
+</body>
+</html>
