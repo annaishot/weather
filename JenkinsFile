@@ -1,0 +1,22 @@
+def url='git@github.com:annaishot/weather.git'
+node('master') {     //master节点运行，以下stage也可指定节点
+    stage 'Prepare'  //清空发布目录
+
+
+    //拉取git代码仓库
+    stage 'Checkout'
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [],
+　　　　　　　submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'c6d98bbd-5cfb-4e26-aa56-f70b054b350d',
+            url: ${url}]]])
+
+    //构建
+    stage 'Build'
+        sh 'mvn -f ${project_name} clean package dockerfile:build'
+
+
+     //部署
+    stage 'Deploy'
+
+
+    //自动化测试（python代码实现）
+    stage 'Test'
